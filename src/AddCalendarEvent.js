@@ -29,7 +29,7 @@ function AddCalendarEvent() {
         scope:SCOPES
     })
     
-    gapi.client.load('calendar','v3', () => console.log('bamm!'))
+    gapi.client.load('calendar','v3')
     
     
     // timezone
@@ -69,14 +69,14 @@ function AddCalendarEvent() {
           
       }
 
-      var request = gapi.client.calendar.events.insert({
+      let request = gapi.client.calendar.events.insert({
           'calendarId': 'primary',
           'resource':event
       })
 
-        request.execute(event => {
+      request.execute(event => {
             window.open(event.htmllink)
-        })
+      })
     })
     
     })
