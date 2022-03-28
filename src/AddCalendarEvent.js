@@ -1,5 +1,6 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState } from 'react';
+import './addcalendar.css'
 
 function AddCalendarEvent() {
 
@@ -19,7 +20,8 @@ function AddCalendarEvent() {
   var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"]
   var SCOPES = "https://www.googleapis.com/auth/calendar.events"
 
-  const handleClick = () =>{
+  const handleClick = (e) =>{
+    e.preventDefault()
     gapi.load('client:auth2',() =>{
       console.log('loaded client')
       gapi.client.init({
@@ -33,7 +35,7 @@ function AddCalendarEvent() {
     
     
     // timezone
-    //let timeZone = "Canada/Central";
+    let timeZone = "Canada/Central";
     //let duration = '00:59:00';
 
     //event start time 
@@ -51,10 +53,12 @@ function AddCalendarEvent() {
           'location':address,
           'start':{
               'dateTime':startDateTime,
+              'timeZone':timeZone
               
           },
           'end':{
               'dateTime': endDateTime,
+              'timeZone':timeZone
               
           },
           'recurrence':[
@@ -82,15 +86,15 @@ function AddCalendarEvent() {
     })
   }
   return (
-    <div className="App">
+    <div className="Addcal">
       <form >
         <input type='text' placeholder='Description' value={clientName} onChange={e => setClientName(e.target.value)}/>
         <br/>
         <input type='text' placeholder='Location' value={address} onChange={e => setAddress(e.target.value)}/>
         <br/>
-        <input type='datetime-local' value={startDateTime} onChange={e => setStartDateTime(e.target.value)}/>
+        <input type='datetime-local' value={startDateTime} onChange={e => setStartDateTime(`${e.target.value}:00`)}/>
         <br/>
-        <input type='datetime-local' value={endDateTime} onChange={e => setEndDateTime(e.target.value)}/>
+        <input type='datetime-local' value={endDateTime} onChange={e => setEndDateTime(`${e.target.value}:00`)}/>
         <br/>
         
         <button onClick={handleClick}>Add Event</button>
