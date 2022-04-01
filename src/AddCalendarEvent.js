@@ -12,6 +12,8 @@ function AddCalendarEvent() {
 
   const [endDateTime, setEndDateTime] = useState('');
 
+  const [listItems, setlistItems] = useState([]);
+
   //upload to github
   
   var gapi = window.gapi
@@ -81,9 +83,57 @@ function AddCalendarEvent() {
       request.execute(event => {
             window.open(event.htmllink)
       })
-    })
+
+      gapi.client.calendar.events.list({
+        'calendarId': 'primary',
+        'timeMin': (new Date()).toISOString(),
+        'showDeleted': false,
+        'singleEvents': true,
+        'maxResults': 10,
+        'orderBy': 'startTime'
+      }).then(response => {
+        const events = response.result.items
+        setlistItems(events[0])
+        console.log('Events :', events)
+        console.log('Events :', events[0])
+      })
+      
+    })    
     
     })
+  }
+
+  const getEvents = (e) =>{
+    e.preventDefault()
+    gapi.client.calendar.events.list({
+      'calendarId': 'primary',
+      'timeMin': (new Date()).toISOString(),
+      'showDeleted': false,
+      'singleEvents': true,
+      'maxResults': 10,
+      'orderBy': 'startTime'
+    }).then(response => {
+      const events = response.result.items
+      //setlistItems(events[0])
+      console.log('Events :', events)
+      console.log('Events :', events[0])
+    })
+  }
+
+  const displayElements = (location, description,) =>{
+
+    <div className='AddcalEvent'>
+    
+      {/*<button onClick={getEvents}> clcik</button>*/}
+      {/*<p>{listItems.creator.email}</p>*/}
+      <label> Location</label>
+      <p>{location}</p>
+      {/*<p>{listItems.organizer.email}</p>*/}
+      <label>Description</label>
+      <p>{description}</p> 
+    
+  </div>
+
   }
   return (
     <div className="Addcal">
@@ -99,6 +149,22 @@ function AddCalendarEvent() {
         
         <button onClick={handleClick}>Add Event</button>
       </form>
+      
+      <div className='AddcalEvent'>
+    
+      {/*<button onClick={getEvents}> clcik</button>*/}
+      <label>Creator</label>
+      {/*<p>{listItems.creator.email}</p>*/}
+      <br/>
+      <label> Location</label>
+      <p>{listItems.location}</p>
+      <label>Organizer</label>
+      {/*<p>{listItems.organizer.email}</p>*/}
+      <br/>
+      <label>Description</label>
+      <p>{listItems.description}</p> 
+    
+      </div>
 
       
     </div>

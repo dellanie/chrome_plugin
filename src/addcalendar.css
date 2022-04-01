@@ -22,3 +22,16 @@
     border: 1px solid gray;
     background-color: lightblue;
 }
+
+.AddcalEvent{
+    margin-top: 10px;
+}
+.AddcalEvent > label{
+    font-size: 15px;
+    font-style: italic;
+    color: grey;
+}
+
+.AddcalEvent > p{
+    margin-top: -3px;
+}
